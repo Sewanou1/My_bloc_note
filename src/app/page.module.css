@@ -1,0 +1,284 @@
+.page {
+  --gray-rgb: 0, 0, 0;
+  --gray-alpha-200: rgba(var(--gray-rgb), 0.08);
+  --gray-alpha-100: rgba(var(--gray-rgb), 0.05);
+
+  --button-primary-hover: #383838;
+  --button-secondary-hover: #f2f2f2;
+
+  display: grid;
+  grid-template-rows: 20px 1fr 20px;
+  align-items: center;
+  justify-items: center;
+  min-height: 100svh;
+  padding: 80px;
+  gap: 64px;
+  font-family: var(--font-geist-sans);
+}
+
+/* Mes styles commencent ici */
+
+.titre {
+
+  width: auto; /* CHANGEMENT: de 180px à auto */
+  height: auto; /* CHANGEMENT: de 38px à auto */
+  margin: 0; /* AJOUT: Supprime les marges par défaut */
+  text-align: center;
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.form {
+  background-color: white;
+  padding: 3rem; /* Augmenté de 2rem à 3rem */
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem; /* Augmenté de 1rem à 1.5rem */
+  width: 500px; /* Largeur fixe plus grande */
+  max-width: 90vw; /* Pour s'adapter aux petits écrans */
+  color: #1a1a1a;
+}
+
+.form h3 {
+  font-size: 1.5rem; /* Titre plus grand */
+  margin: 0 0 1rem 0;
+  text-align: center;
+}
+
+.form input,
+.form textarea {
+  padding: 0.75rem; /* Plus de padding */
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.form input:focus,
+.form textarea:focus {
+  outline: none;
+  border-color: #0070f3;
+}
+
+.form textarea {
+  min-height: 120px; /* Hauteur minimale pour le textarea */
+  resize: vertical; /* Permet le redimensionnement vertical uniquement */
+}
+
+.form button {
+  padding: 0.75rem 1.5rem;
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.form button[type="submit"] {
+  background-color: #0070f3;
+  color: white;
+}
+
+.form button[type="submit"]:hover {
+  background-color: #0051a5;
+}
+
+.form button[type="button"] {
+  background-color: #474747;
+  color: #e5e5e5;
+  margin-top: 0.5rem;
+}
+
+.form button[type="button"]:hover {
+  background-color: #2e2e2e;
+}
+
+
+
+
+
+.notes {
+  margin-top: 2rem;
+}
+
+.note {
+  background-color: #f1f1f1;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  color: #1a1a1a;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 500px;
+  text-align: justify;
+}
+
+.note .delete {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  margin-left: 1rem;
+}
+
+
+
+
+
+/* Mes styles finissent ici */
+
+
+
+@media (prefers-color-scheme: dark) {
+  .page {
+    --gray-rgb: 255, 255, 255;
+    --gray-alpha-200: rgba(var(--gray-rgb), 0.145);
+    --gray-alpha-100: rgba(var(--gray-rgb), 0.06);
+
+    --button-primary-hover: #ccc;
+    --button-secondary-hover: #1a1a1a;
+  }
+}
+
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  grid-row-start: 2;
+  align-items: center; /* AJOUT: Centre horizontalement tous les éléments */
+
+}
+
+.main code {
+  font-family: inherit;
+  background: var(--gray-alpha-100);
+  padding: 2px 4px;
+  border-radius: 4px;
+  font-weight: 600;
+}
+
+.ctas {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+}
+
+.ctas button {
+  appearance: none;
+  border-radius: 128px;
+  height: 48px;
+  padding: 0 20px;
+  border: none;
+  border: 1px solid transparent;
+  transition:
+    background 0.2s,
+    color 0.2s,
+    border-color 0.2s;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  line-height: 20px;
+  font-weight: 500;
+}
+
+button.primary {
+  background: var(--foreground);
+  color: var(--background);
+  gap: 8px;
+}
+
+a.secondary {
+  border-color: var(--gray-alpha-200);
+  min-width: 158px;
+}
+
+.footer {
+  grid-row-start: 3;
+  display: flex;
+  gap: 24px;
+}
+
+.footer a {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.footer img {
+  flex-shrink: 0;
+}
+
+/* Enable hover only on non-touch devices */
+@media (hover: hover) and (pointer: fine) {
+  a.primary:hover {
+    background: var(--button-primary-hover);
+    border-color: transparent;
+  }
+
+  a.secondary:hover {
+    background: var(--button-secondary-hover);
+    border-color: transparent;
+  }
+
+  .footer a:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+  }
+}
+
+@media (max-width: 600px) {
+  .page {
+    padding: 32px;
+    padding-bottom: 80px;
+  }
+
+  .main {
+    align-items: center;
+  }
+
+  .main ol {
+    text-align: center;
+  }
+
+  .ctas {
+    flex-direction: column;
+  }
+
+  .ctas a {
+    font-size: 14px;
+    height: 40px;
+    padding: 0 16px;
+  }
+
+  a.secondary {
+    min-width: auto;
+  }
+
+  .footer {
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+@media (prefers-color-scheme: dark) {
+  .logo {
+    filter: invert();
+  }
+}
+
+
