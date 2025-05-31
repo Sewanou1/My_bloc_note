@@ -21,7 +21,6 @@ export default function Home() {
   }, []);
 
 
-
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Titre:", titre); // pour le deburgage
@@ -67,38 +66,38 @@ export default function Home() {
 
       <main className={styles.main}>
 
-      
-{notes.map((note, index) => (
-  <div key={index} className={styles.note}>
-    <div>
-      <h4>{note.titre}</h4>
-      <p>{note.contenu}</p>
-    </div>
+            
+      {notes.map((note, index) => (
+        <div key={index} className={styles.note}>
+          <div>
+            <h4>{note.titre}</h4>
+            <p>{note.contenu}</p>
+          </div>
 
-    <div className={ styles.divButton }>
-      <button className={styles.delete} onClick={() => removeNote(index)}>
-        <Image
-          aria-hidden
-          src="/delete.svg"
-          alt="delete icon"
-          width={20}
-          height={20}
-        />
-      </button>
+          <div className={ styles.divButton }>
+            <button className={styles.delete} onClick={() => removeNote(index)}>
+              <Image
+                aria-hidden
+                src="/delete.svg"
+                alt="delete icon"
+                width={20}
+                height={20}
+              />
+            </button>
 
-      <button className={styles.edit} onClick={() => editNote(index)}>
-        <Image
-          aria-hidden
-          src="/edit.svg"
-          alt="edit icon"
-          width={20}
-          height={20}
-        />
-      </button>
-    </div>
+            <button className={styles.edit} onClick={() => editNote(index)}>
+              <Image
+                aria-hidden
+                src="/edit.svg"
+                alt="edit icon"
+                width={20}
+                height={20}
+              />
+            </button>
+          </div>
 
-  </div>
-))}
+        </div>
+      ))}
       
         <div className={styles.ctas}>
           <button className={styles.primary} onClick={() => setShowPopup(true)}>
@@ -126,8 +125,6 @@ export default function Home() {
               <button type="submit">Enregistrer</button>
               <button type="button" onClick={() => setShowPopup(false)}>Annuler</button>
             </form>
-
-
 
           </div>
         )}
