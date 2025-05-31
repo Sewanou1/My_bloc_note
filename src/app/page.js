@@ -10,6 +10,7 @@ export default function Home() {
   const [titre, setTitre] = useState('');
   const [contenu, setContenu] = useState('');
   const [notes, setNotes] = useState([]);
+  const [noteIndexToEdit, setnoteIndexToEdit]= useState(null);
   
 
   useEffect(() => {
@@ -26,12 +27,20 @@ export default function Home() {
     console.log("Titre:", titre);
     console.log("Contenu:", contenu);
     console.log("Notes",notes)
-    // Ici tu peux ajouter la logique pour enregistrer dans un état, une base de données, etc.
-
     const nouvelleNote = { titre, contenu };
+    // Modification
+    if(noteIndexToEdit!==null){
+      const updatedNotes = [...notes];
+      updatedNotes[noteIndexToEdit]=nouvelleNote;
+      setNotes(updatedNotes);
+      localStorage.setItem("mes_notes",JSON.stringify(updatedNotes));
+    }else{
+     // Ajout   
     const updatedNotes = [...notes, nouvelleNote];
     setNotes(updatedNotes);
     localStorage.setItem("mes_notes", JSON.stringify(updatedNotes));
+    }
+
 
     
     setShowPopup(false); // Ferme le popup
@@ -39,12 +48,19 @@ export default function Home() {
     setContenu('');
   };
 
-  
-    const removeNote = (indexToRemove) => {
-      const filteredNotes = notes.filter((_, index) => index !== indexToRemove);
-      setNotes(filteredNotes);
-      localStorage.setItem("mes_notes", JSON.stringify(filteredNotes));
-    }; 
+  const editNote = (index) => {
+    const note=notes[index];
+    setTitre(note.titre);
+    setContenu(note.contenu);
+    setnoteIndexToEdit(index);
+    setShowPopup(true);
+  }; 
+
+  const removeNote = (indexToRemove) => {
+    const filteredNotes = notes.filter((_, index) => index !== indexToRemove);
+    setNotes(filteredNotes);
+    localStorage.setItem("mes_notes", JSON.stringify(filteredNotes));
+  }; 
 
   return (
     <div className={styles.page}>
@@ -56,18 +72,32 @@ export default function Home() {
 {notes.map((note, index) => (
   <div key={index} className={styles.note}>
     <div>
-    <h4>{note.titre}</h4>
-    <p>{note.contenu}</p>
-  </div>
-    <button className={styles.delete} onClick={() => removeNote(index)}>
-      <Image
-        aria-hidden
-        src="/delete.svg"
-        alt="delete icon"
-        width={50}
-        height={50}
-      />
-    </button>
+      <h4>{note.titre}</h4>
+      <p>{note.contenu}</p>
+    </div>
+
+    <div className={ styles.divButton }>
+      <button className={styles.delete} onClick={() => removeNote(index)}>
+        <Image
+          aria-hidden
+          src="/delete.svg"
+          alt="delete icon"
+          width={20}
+          height={20}
+        />
+      </button>
+
+      <button className={styles.edit} onClick={() => editNote(index)}>
+        <Image
+          aria-hidden
+          src="/edit.svg"
+          alt="edit icon"
+          width={20}
+          height={20}
+        />
+      </button>
+    </div>
+
   </div>
 ))}
       
