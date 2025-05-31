@@ -62,7 +62,7 @@ export default function Home() {
 
   return (
     <div className={styles.page}>
-          <h2 className={styles.titre}>Bloc Note</h2>
+          <h2 className={styles.titre}>Mon Bloc Note</h2>
 
       <main className={styles.main}>
 
