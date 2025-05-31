@@ -24,9 +24,9 @@ export default function Home() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Titre:", titre);
-    console.log("Contenu:", contenu);
-    console.log("Notes",notes)
+    console.log("Titre:", titre); // pour le deburgage
+    console.log("Contenu:", contenu); // pour le deburgage
+    console.log("Notes",notes)    // pour le deburgage 
     const nouvelleNote = { titre, contenu };
     // Modification
     if(noteIndexToEdit!==null){
@@ -40,7 +40,6 @@ export default function Home() {
     setNotes(updatedNotes);
     localStorage.setItem("mes_notes", JSON.stringify(updatedNotes));
     }
-
 
     
     setShowPopup(false); // Ferme le popup
