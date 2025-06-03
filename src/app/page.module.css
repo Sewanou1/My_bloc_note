@@ -163,6 +163,18 @@
     padding: 32px 16px;
   } 
 
+  .popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 80%;
+    height: 0%;
+    background-color: rgba(0, 0, 0, 0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
 }
 
 
