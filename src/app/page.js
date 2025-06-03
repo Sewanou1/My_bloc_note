@@ -44,6 +44,7 @@ export default function Home() {
     setShowPopup(false); // Ferme le popup
     setTitre('');
     setContenu('');
+    setnoteIndexToEdit(null);
   };
 
   const editNote = (index) => {
