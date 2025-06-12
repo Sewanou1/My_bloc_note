@@ -45,3 +45,20 @@ export async function PUT(req) {
 }
 
 
+export async function DELETE(req) {
+  try {
+    await connectMongo();
+    const { id } = await req.json(); // On extrait l'ID de la requête
+
+    await Note.findByIdAndDelete(id);
+
+    console.log("Note supprimée avec succès");
+    return Response.json({ message: "Note supprimée avec succès" });
+  } catch (err) {
+    console.error("Erreur lors de la suppression :", err);
+    return Response.json({ error: "Erreur de suppression" }, { status: 500 });
+  }
+}
+
+
+

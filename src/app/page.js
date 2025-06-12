@@ -79,11 +79,27 @@ export default function Home() {
     setShowPopup(true);
   }; 
 
-  const removeNote = (indexToRemove) => {
-    const filteredNotes = notes.filter((_, index) => index !== indexToRemove);
-    setNotes(filteredNotes);
-    localStorage.setItem("mes_notes", JSON.stringify(filteredNotes));
-  }; 
+  const removeNote = async (idToRemove) => {
+    try {
+      const res = await fetch("/api/notes", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ id: idToRemove }),
+      });
+
+      if (res.ok) {
+        // Mise à jour de l'état local
+        setNotes(notes.filter(note => note._id !== idToRemove));
+      } else {
+        console.error("Erreur lors de la suppression");
+      }
+    } catch (err) {
+      console.error("Erreur réseau :", err);
+    }
+  };
+
 
   return (
     <div className={styles.page}>
@@ -100,7 +116,7 @@ export default function Home() {
           </div>
 
           <div className={ styles.divButton }>
-            <button className={styles.delete} onClick={() => removeNote(index)}>
+            <button className={styles.delete} onClick={() => removeNote(note._id)}>
               <Image
                 aria-hidden
                 src="/delete.svg"
