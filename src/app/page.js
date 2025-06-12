@@ -4,6 +4,7 @@ import Image from "next/image";
 import styles from "./page.module.css";
 import { useState,useEffect } from "react";
 
+
 export default function Home() {
 
   const [showPopup, setShowPopup] = useState(false);
@@ -11,41 +12,64 @@ export default function Home() {
   const [contenu, setContenu] = useState('');
   const [notes, setNotes] = useState([]);
   const [noteIndexToEdit, setnoteIndexToEdit]= useState(null);
-  
+
+
 
   useEffect(() => {
-    const savedNotes = localStorage.getItem("mes_notes");
-    if (savedNotes) {
-      setNotes(JSON.parse(savedNotes));
-    }
+    fetch("/api/notes")
+      .then(res => res.json())
+      .then(setNotes)
+      .catch(console.error);
   }, []);
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Titre:", titre); // pour le deburgage
-    console.log("Contenu:", contenu); // pour le deburgage
-    console.log("Notes",notes)    // pour le deburgage 
+
     const nouvelleNote = { titre, contenu };
-    // Modification
-    if(noteIndexToEdit!==null){
-      const updatedNotes = [...notes];
-      updatedNotes[noteIndexToEdit]=nouvelleNote;
-      setNotes(updatedNotes);
-      localStorage.setItem("mes_notes",JSON.stringify(updatedNotes));
-    }else{
-     // Ajout   
-    const updatedNotes = [...notes, nouvelleNote];
-    setNotes(updatedNotes);
-    localStorage.setItem("mes_notes", JSON.stringify(updatedNotes));
+
+      if (noteIndexToEdit !== null) {
+        const noteToEdit = notes[noteIndexToEdit];
+        try {
+          const res = await fetch("/api/notes", {
+            method: "PUT",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ ...nouvelleNote, _id: noteToEdit._id }),
+          });
+
+          const updatedNote = await res.json();
+          const updatedNotes = [...notes];
+          updatedNotes[noteIndexToEdit] = updatedNote;
+          setNotes(updatedNotes);
+        } catch (err) {
+          console.error("❌ Erreur lors de la mise à jour :", err);
+        }
+      } else {
+        // ➤ ENVOYER VERS L’API
+        try {
+          const res = await fetch("/api/notes", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(nouvelleNote),
+          });
+
+          const savedNote = await res.json();
+          setNotes([...notes, savedNote]); // Ajouter la note retournée par l’API
+          console.log("Note enregistrée avec succès")
+        } catch (err) {
+          console.error("Erreur d’envoi de la note :", err);
+        }
     }
 
-    
-    setShowPopup(false); // Ferme le popup
-    setTitre('');
-    setContenu('');
-    setnoteIndexToEdit(null);
-  };
+  setShowPopup(false);
+  setTitre('');
+  setContenu('');
+};
+
 
   const editNote = (index) => {
     const note=notes[index];
@@ -101,7 +125,13 @@ export default function Home() {
       ))}
       
         <div className={styles.ctas}>
-          <button className={styles.primary} onClick={() => setShowPopup(true)}>
+          <button className={styles.primary} 
+            onClick={() => {
+                  setnoteIndexToEdit(null); // <== Réinitialise le mode édition
+                  setTitre('');
+                  setContenu('');
+                  setShowPopup(true);
+            }}>
             Ajouter une note
           </button>
         </div>
